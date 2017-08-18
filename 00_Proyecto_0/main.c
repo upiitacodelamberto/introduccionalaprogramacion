@@ -3,8 +3,8 @@
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 /**
-* recibe un entero de la forma 0x000000NM y devuelve un entero
-* de la forma 0x0000NM00
+* recibe un entero de la forma 0x0000MNRS y devuelve un entero
+* de la forma 0x0000RSMN
 */
 int funciondenteros(int intBL){ /*prototipo de funcion*/
 	int intByteL=0x000000ff&intBL;
