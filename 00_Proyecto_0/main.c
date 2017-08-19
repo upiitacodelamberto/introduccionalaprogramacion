@@ -6,7 +6,7 @@
 * recibe un entero de la forma 0x0000MNRS y devuelve un entero
 * de la forma 0x0000RSMN
 */
-int funciondenteros(int intBL){ /*prototipo de funcion*/
+int funciondenteros(int intBL){
 	int intByteL=0x000000ff&intBL;
 	int intByteH=0x000000ff&(intBL>>8);
 	int tmp=intByteL;
@@ -30,17 +30,17 @@ int main(int argc, char *argv[]) {
 	*/
 	intA=0x4f4c4100;
 	printf("intA=%x\n",intA);
-	intBL=0x0000ffff&intA;
-	intBH=0x0000ffff&(intA>>16);
-	//printf("intBH=0x%x\tintBL=0x%x\n",intBH,intBL);
-	intByteL=0x000000ff&intBH;
-	intByteH=0x000000ff&(intBH>>8);
-	//printf("intByteH=0x%x\tintByteL=0x%x\n",intByteH,intByteL);
-//	tmp=intByteL;
-	intByteL=intByteH;
-//	intWordL=intByteL|(tmp<<8);
-	intWordL=tmp=funciondenteros(intBL);
-	//printf("intWordL=0x%x\n",intWordL);
+	intBL=0x0000ffff&intA;	/* word baja */
+	intBH=0x0000ffff&(intA>>16);	/* word alta */
+	printf("intBH=0x%x\tintBL=0x%x\n",intBH,intBL);
+	intByteL=0x000000ff&intBH;	/*esto se hace en funciondenteros*/
+	intByteH=0x000000ff&(intBH>>8);/*esto se hace en funciondenteros*/
+	printf("intByteH=0x%x\tintByteL=0x%x\n",intByteH,intByteL);
+//	tmp=intByteL;				/*esto se hace en funciondenteros*/
+	intByteL=intByteH;			/*esto tmb se hace en funciondenteros*/
+//	intWordL=intByteL|(tmp<<8);	/*esto tmb se hace en funciondenteros*/
+	intWordL=tmp=funciondenteros(intBH);/*se esta pasando la word baja*/
+	printf(".....>intWordL=0x%x\n",intWordL);
 	intByteL=0x000000ff&intBL;
 	intByteH=0x000000ff&(intBL>>8);
 	tmp=intByteL;
