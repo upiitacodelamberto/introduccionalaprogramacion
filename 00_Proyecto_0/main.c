@@ -1,25 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#define SWAP_AND_CAT_BYTES(intByteH,intByteL)		((intByteH)|( ((intByteL)<<(8))&(0x0000ff00))) 
+#define SWAP_AND_CAT_WORDS(intWordH,intWordL)	(((0xffff0000)&((intWordH)<<(16)))|(intWordL))
+#define SPACE_OR_NOT(i)	((i%5)==0)?"":"        "
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 /**
 * recibe un entero de la forma 0x0000MNRS y devuelve un entero
 * de la forma 0x0000RSMN
 */
-int funciondenteros(int intBL){ /*prototipo de funcion*/
-	int intByteL=0x000000ff&intBL;
-	int intByteH=0x000000ff&(intBL>>8);
-	int tmp=intByteL;
-	intByteL=intByteH;
-	intByteH=tmp;
-	return intByteL|((intByteH<<8)&0x0000ff00);
+int funciondenteros(int intBL){
+	int intByteL=0x000000ff&intBL;			// A1// B1
+	int intByteH=0x000000ff&(intBL>>8);		// A2// B2
+	//int tmp=intByteL;						// A3// B3
+	//intByteL=intByteH;						// A4// B4
+	//return intByteL|((tmp<<8)&0x0000ff00);	// A5// B5
+	return SWAP_AND_CAT_BYTES(intByteH,intByteL);
 }
 int main(int argc, char *argv[]) {
-	int intA,intBH,intBL,intByteH,intByteL,intWordL,intWordH,tmp;
+	int intA,intBH,intBL,intByteH,intByteL,intWordL,intWordH,tmp,i;
 	printf("Para un int se usan %i bytes\n",sizeof(intA));
 	printf("Para un int se usan %i bytes\n",sizeof(int));
 	printf("%c\t%i\n\n",0x48,0x48);/* imprime la letra H */
-	union {
+	union Regard{
 		int saludo;
 		char c[4];
 	} ache,*p;
@@ -30,29 +32,57 @@ int main(int argc, char *argv[]) {
 	*/
 	intA=0x4f4c4100;
 	printf("intA=%x\n",intA);
-	intBL=0x0000ffff&intA;
-	intBH=0x0000ffff&(intA>>16);
-	//printf("intBH=0x%x\tintBL=0x%x\n",intBH,intBL);
-	intByteL=0x000000ff&intBH;
-	intByteH=0x000000ff&(intBH>>8);
-	//printf("intByteH=0x%x\tintByteL=0x%x\n",intByteH,intByteL);
-//	tmp=intByteL;
-	intByteL=intByteH;
-//	intWordL=intByteL|(tmp<<8);
-	intWordL=tmp=funciondenteros(intBL);
-	//printf("intWordL=0x%x\n",intWordL);
-	intByteL=0x000000ff&intBL;
-	intByteH=0x000000ff&(intBL>>8);
-	tmp=intByteL;
-	intByteL=intByteH;
-	intWordH=intByteL|(tmp<<8);
-	//printf("intWordH=0x%x\n",intWordH);
+	int funcion_para_saludo(int);
+//B0:	intBL=0x0000ffff&intA;	/* word baja */
+//A0:	intBH=0x0000ffff&(intA>>16);	/* word alta */
+////	printf("intBH=0x%x\tintBL=0x%x\n",intBH,intBL);
+////A1:	intByteL=0x000000ff&intBH;	/*esto se hace en funciondenteros*/
+////A2:	intByteH=0x000000ff&(intBH>>8);/*esto se hace en funciondenteros*/
+////	printf("intByteH=0x%x\tintByteL=0x%x\n",intByteH,intByteL);
+////A3:	tmp=intByteL;				/*esto se hace en funciondenteros*/
+////A4:	intByteL=intByteH;			/*esto tmb se hace en funciondenteros*/
+////A5:	intWordL=intByteL|((tmp<<8)&0x0000ff00);	/*esto tmb se hace en funciondenteros*/
+//C3:	intWordL=funciondenteros(intBH);/*se esta pasando la word alta*/
+//	printf(".....>intWordL=0x%x\n",intWordL);
+////B1:	intByteL=0x000000ff&intBL; 
+////B2:	intByteH=0x000000ff&(intBL>>8);
+////B3:	tmp=intByteL;
+////B4:	intByteL=intByteH;
+////B5:	intWordH=intByteL|((tmp<<8)&0x0000ff00);
+//C4:	intWordH=funciondenteros(intBL);/*se esta pasando la word baja*/
+//	printf(".....>intWordH=0x%x\n",intWordH);
 	p=&ache;
 	/*p->saludo=0x00414c4f;*/
-	p->saludo=tmp=(0xffff0000&(intWordH<<16))|intWordL;
-	printf("p->saludo=0x%x\n",p->saludo);
-	printf("H%s\n",p->c);
-	printf("%i",(tmp>>31)&0x1);
+//C5:	p->saludo=tmp=(0xffff0000&(intWordH<<16))|intWordL;
+//	p->saludo=tmp=funcion_para_saludo(intA);
+//	printf("p->saludo=0x%x\n",p->saludo);
+//	printf("H%s ",p->c);
+		p->saludo=funcion_para_saludo(0x484f4c00);
+		printf("%s",p->c);
+		p->saludo=funcion_para_saludo(0x41204d00);
+		printf("%s",p->c);
+		p->saludo=funcion_para_saludo(0x554e4400);
+		printf("%s",p->c);
+		p->saludo=funcion_para_saludo(0x4f204300);
+		printf("%s",p->c);
+		printf("\n");
+		for(i=0;i<26;i++){
+				printf("%s%c  %x",SPACE_OR_NOT(i),'A'+i,'A'+i);
+			if((i+1)%5==0){
+				printf("\n");
+			}
+		}
+		printf("\n");
+		union Regard unionR[4];
+		unionR[0].saludo=funcion_para_saludo(0x484f4c00);
+		unionR[1].saludo=funcion_para_saludo(0x41204d00);
+		unionR[2].saludo=funcion_para_saludo(0x554e4400);
+		unionR[3].saludo=funcion_para_saludo(0x4f204300);
+		for(i=0;i<4;i++){
+			printf("%s",unionR[i].c);
+		}
+		printf("\n");
+/*	printf("%i",(tmp>>31)&0x1);
 	printf("%i",(tmp>>30)&0x1);
 	printf("%i",(tmp>>29)&0x1);
 	printf("%i",(tmp>>28)&0x1);
@@ -83,14 +113,31 @@ int main(int argc, char *argv[]) {
 	printf("%i",(tmp>>3)&0x1);
 	printf("%i",(tmp>>2)&0x1);
 	printf("%i",(tmp>>1)&0x1);
-	printf("%i",(tmp>>0)&0x1);
+	printf("%i",(tmp>>0)&0x1);*/
+	for(i=31;i>=0;i--){
+		printf("%d",(tmp>>i)&0x1);
+	}
 	printf("\n");
 	printf("Para el int p->saludo se usan %i bytes\n",sizeof(p->saludo));
 	printf("Para el arreglo  p->c se usan %i bytes\n",sizeof(p->c));
 	printf("Pointer a p->saludo:%p\n",&p->saludo);
-	printf("Pointer a p->c[0]:%p\n",&p->c[0]);
+/*	printf("Pointer a p->c[0]:%p\n",&p->c[0]);
 	printf("Pointer a p->c[1]:%p\n",&p->c[1]);
 	printf("Pointer a p->c[2]:%p\n",&p->c[2]);
-	printf("Pointer a p->c[3]:%p\n",&p->c[3]);
+	printf("Pointer a p->c[3]:%p\n",&p->c[3]);*/
+	for(i=0;i<4;i++){
+		printf("Pointer a p->c[%d]:%p\n",i,&p->c[i]);	
+	}
 	return 0;
 }/*end main()*/
+
+int
+funcion_para_saludo(int intA)
+{
+	int intBL=0x0000ffff&intA;	/* word baja */							// B0
+	int intBH=0x0000ffff&(intA>>16);	/* word alta */					// A0
+	int intWordL=funciondenteros(intBH);/*se esta pasando la word alta*/// C3
+	int intWordH=funciondenteros(intBL);/*se esta pasando la word baja*/// C4
+	//return ((0xffff0000)&((intWordH)<<(16)))|(intWordL);				// C5
+	return SWAP_AND_CAT_WORDS(intWordH,intWordL);
+}
