@@ -8,16 +8,26 @@
 * recibe un entero de la forma 0x0000MNRS y devuelve un entero
 * de la forma 0x0000RSMN
 */
+/* variable global */
+int cuenta;		/* cuantas veces se ha ingresado a alguna funcion 
+definida en esta proyecto  */
 int funciondenteros(int intBL){
+	static int intFunciondenteros=0;
 	int intByteL=0x000000ff&intBL;			// A1// B1
 	int intByteH=0x000000ff&(intBL>>8);		// A2// B2
 	//int tmp=intByteL;						// A3// B3
 	//intByteL=intByteH;						// A4// B4
 	//return intByteL|((tmp<<8)&0x0000ff00);	// A5// B5
+	printf("intFunciondenteros=%d\n",++intFunciondenteros);
+	cuenta++;
 	return SWAP_AND_CAT_BYTES(intByteH,intByteL);
 }
 int main(int argc, char *argv[]) {
 	int intA,intBH,intBL,intByteH,intByteL,intWordL,intWordH,tmp,i;
+	static int intMain=0;
+	printf("intMain=%d\n",++intMain);
+	cuenta++;
+	printf("cuenta=%d\n",cuenta);
 	printf("Para un int se usan %i bytes\n",sizeof(intA));
 	printf("Para un int se usan %i bytes\n",sizeof(int));
 	printf("%c\t%i\n\n",0x48,0x48);/* imprime la letra H */
@@ -78,6 +88,7 @@ int main(int argc, char *argv[]) {
 		unionR[1].saludo=funcion_para_saludo(0x41204d00);
 		unionR[2].saludo=funcion_para_saludo(0x554e4400);
 		unionR[3].saludo=funcion_para_saludo(0x4f204300);
+		printf("cuenta=%d\n",cuenta);
 		for(i=0;i<4;i++){
 			printf("%s",unionR[i].c);
 		}
@@ -128,16 +139,24 @@ int main(int argc, char *argv[]) {
 	for(i=0;i<4;i++){
 		printf("Pointer a p->c[%d]:%p\n",i,&p->c[i]);	
 	}
+	void despedida(void);
+	despedida();
+	printf("cuenta=%i",cuenta);
 	return 0;
 }/*end main()*/
 
 int
 funcion_para_saludo(int intA)
 {
+	static int intFuncion_para_saludo=0;		/*cuantas veces se ha llamado a esta funcion */
+	printf("intFuncion_para_saludo=%d\n",++intFuncion_para_saludo);
 	int intBL=0x0000ffff&intA;	/* word baja */							// B0
 	int intBH=0x0000ffff&(intA>>16);	/* word alta */					// A0
 	int intWordL=funciondenteros(intBH);/*se esta pasando la word alta*/// C3
+	printf("cuenta=%d\n",cuenta);
 	int intWordH=funciondenteros(intBL);/*se esta pasando la word baja*/// C4
+	printf("cuenta=%d\n",cuenta);
 	//return ((0xffff0000)&((intWordH)<<(16)))|(intWordL);				// C5
+	cuenta++;
 	return SWAP_AND_CAT_WORDS(intWordH,intWordL);
 }
