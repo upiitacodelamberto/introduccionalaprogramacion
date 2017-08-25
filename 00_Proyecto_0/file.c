@@ -5,7 +5,7 @@
  
  void despedida(){
  	static int intDespedida=0;
- 	printf("intDespedida=%d\n",++intDespedida);
+ 	printf("\t\t\t\tintDespedida=%d\n",++intDespedida);
  	cuenta++;
  	printf("ADIOS MUNDO C!");
  }

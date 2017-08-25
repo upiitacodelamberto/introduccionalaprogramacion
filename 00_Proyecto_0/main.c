@@ -18,14 +18,14 @@ int funciondenteros(int intBL){
 	//int tmp=intByteL;						// A3// B3
 	//intByteL=intByteH;						// A4// B4
 	//return intByteL|((tmp<<8)&0x0000ff00);	// A5// B5
-	printf("intFunciondenteros=%d\n",++intFunciondenteros);
+	printf("\t\t\t\tintFunciondenteros=%d\n",++intFunciondenteros);
 	cuenta++;
 	return SWAP_AND_CAT_BYTES(intByteH,intByteL);
 }
 int main(int argc, char *argv[]) {
 	int intA,intBH,intBL,intByteH,intByteL,intWordL,intWordH,tmp,i;
 	static int intMain=0;
-	printf("intMain=%d\n",++intMain);
+	printf("\t\t\t\tintMain=%d\n",++intMain);
 	cuenta++;
 	printf("cuenta=%d\n",cuenta);
 	printf("Para un int se usan %i bytes\n",sizeof(intA));
@@ -149,7 +149,7 @@ int
 funcion_para_saludo(int intA)
 {
 	static int intFuncion_para_saludo=0;		/*cuantas veces se ha llamado a esta funcion */
-	printf("intFuncion_para_saludo=%d\n",++intFuncion_para_saludo);
+	printf("\t\t\t\tintFuncion_para_saludo=%d\n",++intFuncion_para_saludo);
 	int intBL=0x0000ffff&intA;	/* word baja */							// B0
 	int intBH=0x0000ffff&(intA>>16);	/* word alta */					// A0
 	int intWordL=funciondenteros(intBH);/*se esta pasando la word alta*/// C3
