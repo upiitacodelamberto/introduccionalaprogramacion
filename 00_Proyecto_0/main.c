@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		printf("\n");
-		union Regard unionR[4];
+		union Regard unionR[4];/* arreglo de cuatro uniones Regard */
 		unionR[0].saludo=funcion_para_saludo(0x484f4c00);
 		unionR[1].saludo=funcion_para_saludo(0x41204d00);
 		unionR[2].saludo=funcion_para_saludo(0x554e4400);

@@ -48,9 +48,9 @@ ProductVersion=
 AutoIncBuildNr=0
 
 [Unit1]
-FileName=funcion_atexit.c
+FileName=little_endian.c
 CompileCpp=0
-Folder=Proyecto1
+Folder=
 Compile=1
 Link=1
 Priority=1000

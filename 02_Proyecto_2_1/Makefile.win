@@ -5,8 +5,8 @@ CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = funcion_atexit.o $(RES)
-LINKOBJ  = funcion_atexit.o $(RES)
+OBJ  = little_endian.o $(RES)
+LINKOBJ  = little_endian.o $(RES)
 LIBS =  -L"lib"  
 INCS =  -I"include" 
 CXXINCS =  -I"lib/gcc/mingw32/3.4.2/include"  -I"include/c++/3.4.2/backward"  -I"include/c++/3.4.2/mingw32"  -I"include/c++/3.4.2"  -I"include" 
@@ -26,5 +26,5 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CC) $(LINKOBJ) -o "Proyecto_2_1.exe" $(LIBS)
 
-funcion_atexit.o: funcion_atexit.c
-	$(CC) -c funcion_atexit.c -o funcion_atexit.o $(CFLAGS)
+little_endian.o: little_endian.c
+	$(CC) -c little_endian.c -o little_endian.o $(CFLAGS)
