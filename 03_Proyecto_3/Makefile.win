@@ -5,8 +5,8 @@ CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = main.o $(RES)
-LINKOBJ  = main.o $(RES)
+OBJ  = arreglosbidimensionales.o sistddosec.o $(RES)
+LINKOBJ  = arreglosbidimensionales.o sistddosec.o $(RES)
 LIBS =  -L"lib"  
 INCS =  -I"include" 
 CXXINCS =  -I"lib/gcc/mingw32/3.4.2/include"  -I"include/c++/3.4.2/backward"  -I"include/c++/3.4.2/mingw32"  -I"include/c++/3.4.2"  -I"include" 
@@ -26,5 +26,8 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CC) $(LINKOBJ) -o "Proyecto_Ensamblador_ARC.exe" $(LIBS)
 
-main.o: main.c
-	$(CC) -c main.c -o main.o $(CFLAGS)
+arreglosbidimensionales.o: arreglosbidimensionales.c
+	$(CC) -c arreglosbidimensionales.c -o arreglosbidimensionales.o $(CFLAGS)
+
+sistddosec.o: sistddosec.c
+	$(CC) -c sistddosec.c -o sistddosec.o $(CFLAGS)
