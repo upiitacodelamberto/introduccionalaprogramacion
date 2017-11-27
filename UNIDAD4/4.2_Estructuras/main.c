@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
   struct part part0;
   part0.intVotos=part0.intIndex=0;
   int var;
-  var=contar_votos(20,linea0,linea1,&part0);
+  var=contar_votos(9,linea0,linea1,&part0);
   if(var==-1)
   {printf("\nExiste un error en el llamado a funcion :'v");
   }
@@ -40,10 +40,8 @@ contar_votos(int intIndexPartido,char lineaH[128],
 char linea[],struct part *partPt)
 {
      int i=0,cantDComas=0, intQ=0,j;
-     char *charVotos;
-     if((intIndexPartido<=9) && (intIndexPartido>=0))
-	{
-     do{
+     char *charVotos; 
+	 do{
        if(linea[i]==','){
          cantDComas++;
        }
@@ -52,6 +50,9 @@ char linea[],struct part *partPt)
        }
        i++;
      }while(i<128);
+     if((intIndexPartido<=cantDComas+1) && (intIndexPartido>=0))
+	{
+    
      printf("cantDComas=%d\n, i=%d, %s\n",cantDComas,i, linea);
      if (cantDComas==0){
      	while(linea[i+intQ]!=','&&(i+intQ)<128){
