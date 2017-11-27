@@ -14,39 +14,75 @@ struct part{
   int intIndex;
   int intVotos;
 };
-void 
+int 
 contar_votos(int intIndexPartido,char lineaH[128],
 char linea[],struct part *partPt);
 
 int main(int argc, char *argv[])
 {
   char linea0[128]="pan,pri,prd,verde,pt,panal,mc,morena,encuentro social,nulo";
-  char linea1[128]="500,300,150,10,    2,  200, 1,   250,100,100";
-  char linea2[128]="500,300,150,10,    2,  200, 1,   250,100,100";
+  char linea1[128]="500,300,150,10,    2,  200, 1,   250,100,253";
+  char linea2[128]="500,300,150,10,    2,  200, 1,   250,100,200";
   struct part part0;
   part0.intVotos=part0.intIndex=0;
-  contar_votos(0,linea0,linea1,&part0);
-  
+  int var;
+  var=contar_votos(20,linea0,linea1,&part0);
+  if(var==-1)
+  {printf("\nExiste un error en el llamado a funcion :'v");
+  }
   
   system("PAUSE");	
   return 0;
 }//end main()
 
-void 
+int 
 contar_votos(int intIndexPartido,char lineaH[128],
 char linea[],struct part *partPt)
 {
-     int i=0,cantDComas=0;
+     int i=0,cantDComas=0, intQ=0,j;
+     char *charVotos;
+     if((intIndexPartido<=9) && (intIndexPartido>=0))
+	{
      do{
        if(linea[i]==','){
          cantDComas++;
        }
-       if(cantDcomas==intIndexPartido){
+       if(cantDComas==intIndexPartido){
          break;
        }
        i++;
      }while(i<128);
-     
+     printf("cantDComas=%d\n, i=%d, %s\n",cantDComas,i, linea);
+     if (cantDComas==0){
+     	while(linea[i+intQ]!=','&&(i+intQ)<128){
+     		intQ++;
+		 }
+		charVotos=malloc(intQ*sizeof(char)+1);
+		for(j=0;j<intQ;j++){
+			charVotos[j]=linea[i+j];
+		}
+		charVotos[intQ]=0; 
+		partPt->intVotos=atoi(charVotos);
+	 printf(" %s %d",charVotos,partPt->intVotos);
+	 }
+     else {
+     	while(linea[i+intQ+1]!=','&&(i+intQ)<128){
+     		intQ++;
+		 }
+		 printf("\nintQ=%d\n",intQ);
+		charVotos=malloc(intQ*sizeof(char)+1);
+		i++;
+		for(j=0;j<intQ;j++){
+			charVotos[j]=linea[(i)+j];
+		}
+		charVotos[intQ]=0; 
+		partPt->intVotos=atoi(charVotos);
+	 printf("\n %s %d\n",charVotos,partPt->intVotos);
+	 }
+	 return 0;
+ }else{
+ 	return -1;
+ }
 }
 
 
