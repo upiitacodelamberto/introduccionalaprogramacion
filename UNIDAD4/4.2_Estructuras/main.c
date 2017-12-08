@@ -64,7 +64,6 @@ char linea[],struct part *partPt)
      }while(i<128);
      if((intIndexPartido<=cantDComas+1) && (intIndexPartido>=0))
 	{
-    
 //     printf("cantDComas=%d\n, i=%d, %s\n",cantDComas,i, linea);
      if (cantDComas==0){
      	while(linea[i+intQ]!=','&&(i+intQ)<128){
@@ -129,7 +128,7 @@ char linea[],struct part *partPt)
  }else{
  	return -1;
  }
-}
+}//end contar_votos()
 
 
 
